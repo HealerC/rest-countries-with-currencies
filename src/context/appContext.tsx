@@ -34,7 +34,12 @@ const AppProvider = ({ children }: ProviderProps) => {
   useEffect(() => {
     setState((prevState) => {
       if (data) {
-        return { ...prevState, loading, ...data };
+        return {
+          ...prevState,
+          loading,
+          ...data,
+          search: { ...prevState.search, results: data.countryList },
+        };
       }
       return { ...prevState, loading };
     });
