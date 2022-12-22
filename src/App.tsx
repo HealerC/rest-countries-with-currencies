@@ -7,6 +7,7 @@ import {
   countriesRatesDataProcessor,
   CountryRates,
 } from "./utils/apiDataProcessors";
+import { useAppContext } from "./context/appContext";
 
 const local = "http://localhost:5000/rates";
 const remote = `https://openexchangerates.org/api/latest.json?app_id=${process.env.REACT_APP_OPEN_EXCHANGE_APP_ID}`;
@@ -17,6 +18,7 @@ const fetchUrlsObject: APIFetchArgument = {
 
 function App() {
   const { loading, processedData } = useFetch(fetchUrlsObject);
+  const { lightMode, toggleMode } = useAppContext();
   useEffect(() => {
     if (
       processedData.countries &&
@@ -30,6 +32,8 @@ function App() {
   return (
     <div>
       Hello world
+      <h2>Lightmode: {lightMode ? "true" : "false"}</h2>
+      <button onClick={toggleMode}>Toggle mode</button>
       <h2>{loading ? "loading..." : "loaded successfully"}</h2>
       <h4>{JSON.stringify(processedData)}</h4>
     </div>
