@@ -57,6 +57,7 @@ export const countriesRatesDataProcessor: countryRatesDPType = ({
       population,
       languages,
       tld,
+      flags,
     } = country;
 
     restCountryData.commonName = name.common;
@@ -76,6 +77,7 @@ export const countriesRatesDataProcessor: countryRatesDPType = ({
     restCountryData.population = population;
     restCountryData.languages = languages;
     restCountryData.tld = tld;
+    restCountryData.flags = flags;
 
     const { currencies } = country;
     let tempCurrencies: {
