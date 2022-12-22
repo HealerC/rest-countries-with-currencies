@@ -1,5 +1,9 @@
 import { RestCountriesData, CountryList } from "./interfacesTypes";
-import { RestCountriesAPI, OpenExchangeAPI } from "./interfacesTypes";
+import {
+  AppCurrencyData,
+  RestCountriesAPI,
+  OpenExchangeAPI,
+} from "./interfacesTypes";
 export const countriesDataProcessor = (data: Object) => {
   return data;
 };
@@ -38,6 +42,7 @@ export const countriesRatesDataProcessor = ({
       languages,
       tld,
     } = country;
+
     restCountryData.commonName = name.common;
 
     restCountryData.nativeName = {};
@@ -50,7 +55,7 @@ export const countriesRatesDataProcessor = ({
 
     restCountryData.capital = capital;
     restCountryData.region = region;
-    restCountryData.subRegion = subregion;
+    restCountryData.subregion = subregion;
     restCountryData.borders = borders;
     restCountryData.population = population;
     restCountryData.languages = languages;
@@ -58,11 +63,7 @@ export const countriesRatesDataProcessor = ({
 
     const { currencies } = country;
     let tempCurrencies: {
-      [key: string]: {
-        name: string;
-        symbol: string;
-        conversionFrom1USD: number | null;
-      };
+      [key: string]: AppCurrencyData;
     } = {};
     if (currencies) {
       Object.keys(currencies).forEach((currencyCode) => {

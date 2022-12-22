@@ -28,27 +28,10 @@ export type AppState = {
   favCountries: string[];
 };
 
-export type RestCountriesData = {
-  commonName: string;
-  nativeName: {
-    [language: string]: string;
-  };
-  capital: string[];
-  region: string;
-  subRegion: string;
-  population: number;
-  tld: string[];
-  languages: {
-    [language: string]: string;
-  };
-  currencies: {
-    [currency: string]: {
-      name: string;
-      symbol: string;
-      conversionFrom1USD: number | null;
-    };
-  };
-  borders: string[];
+export type AppCurrencyData = {
+  name: string;
+  symbol: string;
+  conversionFrom1USD: number | null;
 };
 
 export interface RestCountriesAPI {
@@ -84,7 +67,15 @@ export interface RestCountriesAPI {
     svg: string;
   };
 }
-
+export interface RestCountriesData extends RestCountriesAPI {
+  commonName: string;
+  nativeName: {
+    [language: string]: string;
+  };
+  currencies: {
+    [currency: string]: AppCurrencyData;
+  };
+}
 export interface OpenExchangeAPI {
   base: string;
   rates: {
