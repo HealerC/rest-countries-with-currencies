@@ -4,6 +4,8 @@ import {
   RestCountriesAPI,
   OpenExchangeAPI,
 } from "./interfacesTypes";
+import { Region, RegionList } from "./interfacesTypes";
+
 export const countriesDataProcessor = (data: Object) => {
   return data;
 };
@@ -28,6 +30,15 @@ export const countriesRatesDataProcessor = ({
   }
 
   let countryList: CountryList = {};
+  let regionList: RegionList = {
+    All: [],
+    Africa: [],
+    Americas: [],
+    Asia: [],
+    Europe: [],
+    Oceania: [],
+    Antarctic: [],
+  };
 
   countries.forEach((country) => {
     let restCountryData = {} as RestCountriesData;
@@ -76,12 +87,12 @@ export const countriesRatesDataProcessor = ({
         };
       });
     }
-
     restCountryData.currencies = tempCurrencies;
 
     const cca3 = country.cca3;
-    countryList[cca3] = restCountryData;
+    regionList[region].push(cca3); // A list of countries in regions
+    countryList[cca3] = restCountryData; // CCA is the key to country data
   });
 
-  return { processing: { rates, countries }, restCountryList: countryList };
+  return { processing: { rates, countries }, countryList, regionList };
 };

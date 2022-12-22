@@ -2,13 +2,18 @@ export type CountryList = {
   [cca3: string]: RestCountriesData;
 };
 
-export type RegionList =
+export type Region =
   | "All"
   | "Africa"
   | "Americas"
   | "Asia"
   | "Europe"
-  | "Oceania";
+  | "Oceania"
+  | "Antarctic";
+
+export type RegionList = {
+  [key in Region]: string[];
+};
 
 export type AppState = {
   countries: CountryList;
@@ -22,7 +27,7 @@ export type AppState = {
   lightMode: boolean;
   search: {
     query: string;
-    filterRegion: RegionList;
+    filterRegion: Region;
     results: CountryList;
   };
   favCountries: string[];
@@ -55,7 +60,7 @@ export interface RestCountriesAPI {
   };
 
   capital: string[];
-  region: string;
+  region: Region;
   subregion: string;
   languages: {
     [languageAbbr: string]: string;
