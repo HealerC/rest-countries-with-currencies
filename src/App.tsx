@@ -1,41 +1,16 @@
-import { useEffect } from "react";
 import "./App.css";
-import useFetch, { APIFetchArgument } from "./utils/useFetch";
-import {
-  countriesDataProcessor,
-  ratesDataProcessor,
-  countriesRatesDataProcessor,
-  CountryRates,
-} from "./utils/apiDataProcessors";
 import { useAppContext } from "./context/appContext";
 
-const local = "http://localhost:5000/rates";
-const remote = `https://openexchangerates.org/api/latest.json?app_id=${process.env.REACT_APP_OPEN_EXCHANGE_APP_ID}`;
-const fetchUrlsObject: APIFetchArgument = {
-  rates: [local, ratesDataProcessor],
-  countries: ["https://restcountries.com/v3.1/all", countriesDataProcessor],
-};
-
 function App() {
-  const { loading, processedData } = useFetch(fetchUrlsObject);
-  const { lightMode, toggleMode } = useAppContext();
-  useEffect(() => {
-    if (
-      processedData.countries &&
-      Array.isArray(processedData.countries) &&
-      processedData.rates
-    ) {
-      const final = countriesRatesDataProcessor(processedData as CountryRates);
-      console.log(final);
-    }
-  }, [processedData]);
+  const { loading, lightMode, toggleMode, countryList, regionList } =
+    useAppContext();
   return (
     <div>
       Hello world
       <h2>Lightmode: {lightMode ? "true" : "false"}</h2>
       <button onClick={toggleMode}>Toggle mode</button>
       <h2>{loading ? "loading..." : "loaded successfully"}</h2>
-      <h4>{JSON.stringify(processedData)}</h4>
+      <h4>{JSON.stringify({ countryList, regionList })}</h4>
     </div>
   );
 }

@@ -16,8 +16,8 @@ export type RegionList = {
 };
 
 export type AppState = {
-  countries: CountryList;
-  regions: {
+  countryList: CountryList;
+  regionList: {
     Africa: string[];
     Americas: string[];
     Asia: string[];
@@ -31,6 +31,7 @@ export type AppState = {
     results: CountryList;
   };
   favCountries: string[];
+  loading: boolean;
 };
 
 export type AppCurrencyData = {

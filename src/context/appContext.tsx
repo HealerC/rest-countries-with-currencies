@@ -1,9 +1,10 @@
-import React, { useState, createContext, useContext } from "react";
+import React, { useState, useEffect, createContext, useContext } from "react";
 import { AppState } from "../utils/interfacesTypes";
+import { useFetcher } from "./useFetcher";
 
 const defaultState: AppState = {
-  countries: {},
-  regions: {
+  countryList: {},
+  regionList: {
     Africa: [],
     Americas: [],
     Asia: [],
@@ -17,6 +18,7 @@ const defaultState: AppState = {
     results: {},
   },
   favCountries: [],
+  loading: true,
 };
 interface AppContext extends AppState {
   toggleMode: () => void;
@@ -27,6 +29,16 @@ const AppContext = createContext<AppContext | undefined>(undefined);
 type ProviderProps = { children: React.ReactNode };
 const AppProvider = ({ children }: ProviderProps) => {
   const [state, setState] = useState<AppState>(defaultState);
+  const { loading, data } = useFetcher();
+
+  useEffect(() => {
+    setState((prevState) => {
+      if (data) {
+        return { ...prevState, loading, ...data };
+      }
+      return { ...prevState, loading };
+    });
+  }, [loading]);
 
   const toggleMode = () => {
     setState({ ...state, lightMode: !state.lightMode });

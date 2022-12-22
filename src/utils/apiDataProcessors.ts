@@ -19,10 +19,15 @@ export type CountryRates = {
   rates: OpenExchangeAPI;
 };
 
-export const countriesRatesDataProcessor = ({
+type countryRatesDPType = (countryRates: CountryRates) => {
+  countryList: CountryList;
+  regionList: RegionList;
+};
+
+export const countriesRatesDataProcessor: countryRatesDPType = ({
   countries,
   rates,
-}: CountryRates): Object => {
+}) => {
   if (!countries || !rates) {
     throw new Error(
       "You should pass an object containing keys: countries, rates"
@@ -94,5 +99,5 @@ export const countriesRatesDataProcessor = ({
     countryList[cca3] = restCountryData; // CCA is the key to country data
   });
 
-  return { processing: { rates, countries }, countryList, regionList };
+  return { countryList, regionList };
 };
