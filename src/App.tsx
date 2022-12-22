@@ -1,24 +1,31 @@
 import { useEffect } from "react";
 import "./App.css";
 import useFetch, { APIFetchArgument } from "./utils/useFetch";
+import {
+  countriesDataProcessor,
+  ratesDataProcessor,
+  countriesRatesDataProcessor,
+  CountryRates,
+} from "./utils/apiDataProcessors";
 
-const countriesProcessor = (data: Object) => {
-  return { countriesData: data };
-};
-const ratesProcessor = (data: Object) => {
-  return { ratesData: data };
-};
+const local = "http://localhost:5000/rates";
+const remote = `https://openexchangerates.org/api/latest.json?app_id=${process.env.REACT_APP_OPEN_EXCHANGE_APP_ID}`;
 const fetchUrlsObject: APIFetchArgument = {
-  rates: [
-    `https://openexchangerates.org/api/latest.json?app_id=${process.env.REACT_APP_OPEN_EXCHANGE_APP_ID}`,
-    ratesProcessor,
-  ],
-  countries: ["https://restcountries.com/v3.1/all", countriesProcessor],
+  rates: [local, ratesDataProcessor],
+  countries: ["https://restcountries.com/v3.1/all", countriesDataProcessor],
 };
+
 function App() {
   const { loading, processedData } = useFetch(fetchUrlsObject);
   useEffect(() => {
-    console.log(processedData);
+    if (
+      processedData.countries &&
+      Array.isArray(processedData.countries) &&
+      processedData.rates
+    ) {
+      const final = countriesRatesDataProcessor(processedData as CountryRates);
+      console.log(final);
+    }
   }, [processedData]);
   return (
     <div>
