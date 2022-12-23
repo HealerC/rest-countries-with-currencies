@@ -4,7 +4,9 @@ import { useNavigate } from "react-router-dom";
 const Home = () => {
   const navigate = useNavigate();
   const {
-    search: { results },
+    search: { results, query, filterRegion },
+    handleSearch,
+    handleFilter,
   } = useAppContext();
 
   const handleCountryClick = (
@@ -29,8 +31,22 @@ const Home = () => {
       </div>
     );
   });
-
-  return <div>{countryElements}</div>;
+  // "All" | "Africa" | "Americas" | "Asia" | "Europe" | "Oceania" | "Antarctic";
+  return (
+    <div>
+      <input type="text" name="search" value={query} onChange={handleSearch} />
+      <select value={filterRegion} onChange={handleFilter}>
+        <option value="All">All</option>
+        <option value="Africa">Africa</option>
+        <option value="Americas">Americas</option>
+        <option value="Asia">Asia</option>
+        <option value="Europe">Europe</option>
+        <option value="Oceania">Oceania</option>
+        <option value="Antarctic">Antarctic</option>
+      </select>
+      {countryElements}
+    </div>
+  );
 };
 
 export default Home;

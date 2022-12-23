@@ -1,6 +1,7 @@
 import React, { useState, useEffect, createContext, useContext } from "react";
 import { AppState } from "../utils/interfacesTypes";
 import { useFetcher } from "./useFetcher";
+import { Region } from "../utils/interfacesTypes";
 
 const defaultState: AppState = {
   countryList: {},
@@ -22,6 +23,8 @@ const defaultState: AppState = {
 };
 interface AppContext extends AppState {
   toggleMode: () => void;
+  handleSearch: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleFilter: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 const AppContext = createContext<AppContext | undefined>(undefined);
@@ -49,8 +52,20 @@ const AppProvider = ({ children }: ProviderProps) => {
     setState({ ...state, lightMode: !state.lightMode });
   };
 
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setState({ ...state, search: { ...state.search, query: value } });
+  };
+
+  const handleFilter = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = event.target.value as Region;
+    setState({ ...state, search: { ...state.search, filterRegion: value } });
+  };
+
   return (
-    <AppContext.Provider value={{ ...state, toggleMode }}>
+    <AppContext.Provider
+      value={{ ...state, toggleMode, handleSearch, handleFilter }}
+    >
       {children}
     </AppContext.Provider>
   );
