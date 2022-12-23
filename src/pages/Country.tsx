@@ -3,6 +3,7 @@ import { useAppContext } from "../context/appContext";
 import { CountryList, AppCurrencyData } from "../utils/interfacesTypes";
 import { Navigate } from "react-router-dom";
 import Conversion from "../components/Conversion";
+import history from "history/browser";
 
 const Country = () => {
   const navigate = useNavigate();
@@ -11,7 +12,8 @@ const Country = () => {
   const { countryList } = useAppContext();
 
   const handleBackButtonClick = () => {
-    navigate("/");
+    // navigate("/");
+    history.back();
   };
 
   const checkCountryForCca3 = (countryList: CountryList, cca3: string) => {
