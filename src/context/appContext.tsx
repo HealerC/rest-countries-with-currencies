@@ -56,8 +56,16 @@ const AppProvider = ({ children }: ProviderProps) => {
   };
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let results: string[] = Object.keys(state.countryList);
+
     const value = event.target.value;
-    setState({ ...state, search: { ...state.search, query: value } });
+    if (value) {
+      results = Object.keys(state.countryList).filter((key) => {
+        const commonName = state.countryList[key].commonName;
+        return commonName.toLowerCase().startsWith(value.toLowerCase());
+      });
+    }
+    setState({ ...state, search: { ...state.search, query: value, results } });
   };
 
   const handleFilter = (event: React.ChangeEvent<HTMLSelectElement>) => {
