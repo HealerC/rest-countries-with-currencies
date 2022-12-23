@@ -1,7 +1,8 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/appContext";
-import { CountryList } from "../utils/interfacesTypes";
+import { CountryList, AppCurrencyData } from "../utils/interfacesTypes";
 import { Navigate } from "react-router-dom";
+import Conversion from "../components/Conversion";
 
 const Country = () => {
   const navigate = useNavigate();
@@ -31,6 +32,32 @@ const Country = () => {
     }
   };
 
+  type CurrenciesObject = {
+    [currency: string]: AppCurrencyData;
+  };
+  const getCurrencyComponents = (
+    currencies: CurrenciesObject
+  ): React.ReactNode => {
+    const components: JSX.Element[] = Object.keys(currencies).map(
+      (currencyCode) => {
+        const code = currencyCode;
+        const symbol = currencies[currencyCode].symbol;
+        const rate = currencies[currencyCode].conversionFrom1USD;
+        const name = currencies[currencyCode].name;
+        return (
+          <Conversion
+            key={code}
+            code={code}
+            name={name}
+            symbol={symbol}
+            rate={rate}
+          />
+        );
+      }
+    );
+    return components;
+  };
+
   let country = checkCountryForCca3(countryList, cca3);
   if (!country) {
     return <Navigate to="/"></Navigate>;
@@ -48,8 +75,8 @@ const Country = () => {
       Top level domain: {country.tld}
       Languages: {Object.values(country.languages)}
       Border countries: {JSON.stringify(country.borders)}
-      Currencies {JSON.stringify(country.currencies)}
       Flags {JSON.stringify(country.flags)}
+      {country.currencies && getCurrencyComponents(country.currencies)}
     </div>
   );
 };
