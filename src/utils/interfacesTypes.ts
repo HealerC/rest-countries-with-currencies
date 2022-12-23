@@ -28,7 +28,7 @@ export type AppState = {
   search: {
     query: string;
     filterRegion: Region;
-    results: CountryList;
+    results: string[];
   };
   favCountries: string[];
   loading: boolean;

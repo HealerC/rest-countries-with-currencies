@@ -5,6 +5,7 @@ const Home = () => {
   const navigate = useNavigate();
   const {
     search: { results, query, filterRegion },
+    countryList,
     handleSearch,
     handleFilter,
   } = useAppContext();
@@ -16,8 +17,8 @@ const Home = () => {
     navigate(`/countries/${cca3}`);
   };
 
-  const countryElements = Object.keys(results).map((cca3) => {
-    const { commonName, population, region, capital } = results[cca3];
+  const countryElements = results.map((cca3) => {
+    const { commonName, population, region, capital } = countryList[cca3];
     return (
       <div
         key={cca3}

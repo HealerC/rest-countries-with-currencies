@@ -16,7 +16,7 @@ const defaultState: AppState = {
   search: {
     query: "",
     filterRegion: "All",
-    results: {},
+    results: [],
   },
   favCountries: [],
   loading: true,
@@ -41,7 +41,10 @@ const AppProvider = ({ children }: ProviderProps) => {
           ...prevState,
           loading,
           ...data,
-          search: { ...prevState.search, results: data.countryList },
+          search: {
+            ...prevState.search,
+            results: Object.keys(data.countryList),
+          },
         };
       }
       return { ...prevState, loading };
