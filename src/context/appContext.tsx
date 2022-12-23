@@ -6,11 +6,13 @@ import { Region } from "../utils/interfacesTypes";
 const defaultState: AppState = {
   countryList: {},
   regionList: {
+    All: [],
     Africa: [],
     Americas: [],
     Asia: [],
     Europe: [],
     Oceania: [],
+    Antarctic: [],
   },
   lightMode: true,
   search: {
@@ -23,7 +25,7 @@ const defaultState: AppState = {
 };
 interface AppContext extends AppState {
   toggleMode: () => void;
-  handleSearch: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSearch: (value: string) => void;
   handleFilter: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
@@ -55,22 +57,41 @@ const AppProvider = ({ children }: ProviderProps) => {
     setState({ ...state, lightMode: !state.lightMode });
   };
 
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let results: string[] = Object.keys(state.countryList);
+  const globalResultsFilter = (results: string[], value: string) => {
+    results = results.filter((key) => {
+      const commonName = state.countryList[key].commonName;
+      return commonName.toLowerCase().startsWith(value.toLowerCase());
+    });
+    return results;
+  };
+  const handleSearch = (value: string = state.search.query) => {
+    let results =
+      state.search.filterRegion === "All"
+        ? Object.keys(state.countryList)
+        : state.regionList[state.search.filterRegion];
 
-    const value = event.target.value;
     if (value) {
-      results = Object.keys(state.countryList).filter((key) => {
-        const commonName = state.countryList[key].commonName;
-        return commonName.toLowerCase().startsWith(value.toLowerCase());
-      });
+      results = globalResultsFilter(results, value);
     }
     setState({ ...state, search: { ...state.search, query: value, results } });
   };
 
   const handleFilter = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    let results: string[] = Object.keys(state.countryList);
+
     const value = event.target.value as Region;
-    setState({ ...state, search: { ...state.search, filterRegion: value } });
+    if (value !== "All") {
+      results = state.regionList[value];
+    }
+
+    const searchValue = state.search.query;
+    if (searchValue) {
+      results = globalResultsFilter(results, searchValue);
+    }
+    setState({
+      ...state,
+      search: { ...state.search, filterRegion: value, results },
+    });
   };
 
   return (

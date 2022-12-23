@@ -17,13 +17,7 @@ export type RegionList = {
 
 export type AppState = {
   countryList: CountryList;
-  regionList: {
-    Africa: string[];
-    Americas: string[];
-    Asia: string[];
-    Europe: string[];
-    Oceania: string[];
-  };
+  regionList: RegionList;
   lightMode: boolean;
   search: {
     query: string;

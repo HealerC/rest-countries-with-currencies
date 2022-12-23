@@ -35,7 +35,12 @@ const Home = () => {
   // "All" | "Africa" | "Americas" | "Asia" | "Europe" | "Oceania" | "Antarctic";
   return (
     <div>
-      <input type="text" name="search" value={query} onChange={handleSearch} />
+      <input
+        type="text"
+        name="search"
+        value={query}
+        onChange={(event) => handleSearch(event.target.value)}
+      />
       <select value={filterRegion} onChange={handleFilter}>
         <option value="All">All</option>
         <option value="Africa">Africa</option>
