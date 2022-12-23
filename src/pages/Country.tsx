@@ -57,6 +57,17 @@ const Country = () => {
     );
     return components;
   };
+  const getBordersButtons = (borderCountries: string[]): React.ReactNode => {
+    const buttonList = borderCountries.map((cca3) => {
+      const commonName = countryList[cca3].commonName;
+      return (
+        <button onClick={() => navigate(`/countries/${cca3}`)}>
+          {commonName}
+        </button>
+      );
+    });
+    return buttonList;
+  };
 
   let country = checkCountryForCca3(countryList, cca3);
   if (!country) {
@@ -74,9 +85,9 @@ const Country = () => {
       Capital: {country.capital}
       Top level domain: {country.tld}
       Languages: {Object.values(country.languages)}
-      Border countries: {JSON.stringify(country.borders)}
       Flags {JSON.stringify(country.flags)}
       {country.currencies && getCurrencyComponents(country.currencies)}
+      Border countries: {getBordersButtons(country.borders)}
     </div>
   );
 };
