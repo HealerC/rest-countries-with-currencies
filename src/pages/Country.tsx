@@ -59,16 +59,21 @@ const Country = () => {
     );
     return components;
   };
-  const getBordersButtons = (borderCountries: string[]): React.ReactNode => {
-    const buttonList = borderCountries.map((cca3) => {
-      const commonName = countryList[cca3].commonName;
-      return (
-        <button onClick={() => navigate(`/countries/${cca3}`)}>
-          {commonName}
-        </button>
-      );
-    });
-    return buttonList;
+  const getBordersButtons = (
+    borderCountries: string[] | undefined
+  ): React.ReactNode => {
+    if (borderCountries) {
+      const buttonList = borderCountries.map((cca3) => {
+        const commonName = countryList[cca3].commonName;
+        return (
+          <button onClick={() => navigate(`/countries/${cca3}`)}>
+            {commonName}
+          </button>
+        );
+      });
+      return buttonList;
+    }
+    return [];
   };
 
   let country = checkCountryForCca3(countryList, cca3);
