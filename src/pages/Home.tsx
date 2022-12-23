@@ -43,6 +43,7 @@ const Home = () => {
       />
       <select value={filterRegion} onChange={handleFilter}>
         <option value="All">All</option>
+        <option value="Fav">Favourite</option>
         <option value="Africa">Africa</option>
         <option value="Americas">Americas</option>
         <option value="Asia">Asia</option>

@@ -7,6 +7,7 @@ const defaultState: AppState = {
   countryList: {},
   regionList: {
     All: [],
+    Fav: [],
     Africa: [],
     Americas: [],
     Asia: [],
@@ -20,11 +21,11 @@ const defaultState: AppState = {
     filterRegion: "All",
     results: [],
   },
-  favCountries: [],
   loading: true,
 };
 interface AppContext extends AppState {
   toggleMode: () => void;
+  toggleFav: (cca3: string) => void;
   handleSearch: (value: string) => void;
   handleFilter: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }
@@ -57,6 +58,16 @@ const AppProvider = ({ children }: ProviderProps) => {
     setState({ ...state, lightMode: !state.lightMode });
   };
 
+  const toggleFav = (cca3: string) => {
+    let fav = state.regionList.Fav;
+    if (fav.includes(cca3)) {
+      fav = fav.filter((data) => data !== cca3);
+    } else {
+      fav.push(cca3);
+    }
+    setState({ ...state, regionList: { ...state.regionList, Fav: fav } });
+  };
+
   const globalResultsFilter = (results: string[], value: string) => {
     results = results.filter((key) => {
       const commonName = state.countryList[key].commonName;
@@ -82,8 +93,8 @@ const AppProvider = ({ children }: ProviderProps) => {
     const value = event.target.value as Region;
     if (value !== "All") {
       results = state.regionList[value];
+      console.log(state.regionList);
     }
-
     const searchValue = state.search.query;
     if (searchValue) {
       results = globalResultsFilter(results, searchValue);
@@ -96,7 +107,7 @@ const AppProvider = ({ children }: ProviderProps) => {
 
   return (
     <AppContext.Provider
-      value={{ ...state, toggleMode, handleSearch, handleFilter }}
+      value={{ ...state, toggleMode, toggleFav, handleSearch, handleFilter }}
     >
       {children}
     </AppContext.Provider>

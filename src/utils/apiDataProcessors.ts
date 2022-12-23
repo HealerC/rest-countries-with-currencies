@@ -37,6 +37,7 @@ export const countriesRatesDataProcessor: countryRatesDPType = ({
   let countryList: CountryList = {};
   let regionList: RegionList = {
     All: [],
+    Fav: [],
     Africa: [],
     Americas: [],
     Asia: [],

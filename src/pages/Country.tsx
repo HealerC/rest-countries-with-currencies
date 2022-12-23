@@ -9,7 +9,7 @@ const Country = () => {
   const navigate = useNavigate();
 
   const cca3 = useParams().cca3 as string;
-  const { countryList } = useAppContext();
+  const { countryList, toggleFav, regionList } = useAppContext();
 
   const handleBackButtonClick = () => {
     // navigate("/");
@@ -84,6 +84,9 @@ const Country = () => {
   return (
     <div>
       <button onClick={handleBackButtonClick}>Back</button>
+      <button onClick={() => toggleFav(cca3)}>
+        {regionList.Fav.includes(cca3) ? "Remove Favourite" : "Add Favourite"}
+      </button>
       Common name: {country.commonName}
       Native name: {Object.values(country.nativeName)}
       Population: {country.population}

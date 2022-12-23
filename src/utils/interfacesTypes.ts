@@ -4,6 +4,7 @@ export type CountryList = {
 
 export type Region =
   | "All"
+  | "Fav"
   | "Africa"
   | "Americas"
   | "Asia"
@@ -24,7 +25,6 @@ export type AppState = {
     filterRegion: Region;
     results: string[];
   };
-  favCountries: string[];
   loading: boolean;
 };
 
