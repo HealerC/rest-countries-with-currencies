@@ -5,7 +5,7 @@ import { Navigate } from "react-router-dom";
 import Conversion from "../components/Conversion";
 import history from "history/browser";
 import ButtonSimple from "../components/ButtonSimple";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import IconButton from "@mui/material/IconButton";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
@@ -93,7 +93,7 @@ const Country = () => {
   return (
     <div>
       <ButtonSimple
-        startIcon={<ArrowBackIcon />}
+        startIcon={<KeyboardBackspaceIcon />}
         handleClick={handleBackButtonClick}
       >
         Back
