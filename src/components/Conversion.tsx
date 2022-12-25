@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import CurrencyTextField from "./CurrencyTextField";
 
 type ConversionProps = {
   code: string;
@@ -42,21 +43,19 @@ const Conversion = ({ name, code, symbol, rate }: ConversionProps) => {
       {name} ({code})
       {rate && (
         <div>
-          {DOLLAR_SYMBOL}
-          <input
-            type="number"
+          <CurrencyTextField
             name="dollarValue"
             value={state.dollarValue}
-            onChange={handleChange}
-          />{" "}
+            handleChange={handleChange}
+            symbol={DOLLAR_SYMBOL}
+          ></CurrencyTextField>
           equals
-          {symbol}
-          <input
-            type="number"
+          <CurrencyTextField
             name="currencyValue"
             value={state.currencyValue}
-            onChange={handleChange}
-          />
+            handleChange={handleChange}
+            symbol={symbol}
+          ></CurrencyTextField>
         </div>
       )}
     </div>

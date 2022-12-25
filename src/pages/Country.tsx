@@ -4,6 +4,11 @@ import { CountryList, AppCurrencyData } from "../utils/interfacesTypes";
 import { Navigate } from "react-router-dom";
 import Conversion from "../components/Conversion";
 import history from "history/browser";
+import ButtonSimple from "../components/ButtonSimple";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import IconButton from "@mui/material/IconButton";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import Favorite from "@mui/icons-material/Favorite";
 
 const Country = () => {
   const navigate = useNavigate();
@@ -66,9 +71,13 @@ const Country = () => {
       const buttonList = borderCountries.map((cca3) => {
         const commonName = countryList[cca3].commonName;
         return (
-          <button onClick={() => navigate(`/countries/${cca3}`)}>
+          <ButtonSimple
+            variant="contained"
+            startIcon={null}
+            handleClick={() => navigate(`/countries/${cca3}`)}
+          >
             {commonName}
-          </button>
+          </ButtonSimple>
         );
       });
       return buttonList;
@@ -83,10 +92,15 @@ const Country = () => {
 
   return (
     <div>
-      <button onClick={handleBackButtonClick}>Back</button>
-      <button onClick={() => toggleFav(cca3)}>
-        {regionList.Fav.includes(cca3) ? "Remove Favourite" : "Add Favourite"}
-      </button>
+      <ButtonSimple
+        startIcon={<ArrowBackIcon />}
+        handleClick={handleBackButtonClick}
+      >
+        Back
+      </ButtonSimple>
+      <IconButton onClick={() => toggleFav(cca3)} aria-label="favorite">
+        {regionList.Fav.includes(cca3) ? <Favorite /> : <FavoriteBorderIcon />}
+      </IconButton>
       Common name: {country.commonName}
       Native name: {Object.values(country.nativeName)}
       Population: {country.population}
