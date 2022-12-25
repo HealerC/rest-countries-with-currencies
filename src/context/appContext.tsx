@@ -2,6 +2,7 @@ import React, { useState, useEffect, createContext, useContext } from "react";
 import { AppState } from "../utils/interfacesTypes";
 import { useFetcher } from "./useFetcher";
 import { Region } from "../utils/interfacesTypes";
+import { SelectChangeEvent } from "@mui/material/Select";
 
 const defaultState: AppState = {
   countryList: {},
@@ -27,7 +28,7 @@ interface AppContext extends AppState {
   toggleMode: () => void;
   toggleFav: (cca3: string) => void;
   handleSearch: (value: string) => void;
-  handleFilter: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  handleFilter: (event: SelectChangeEvent) => void;
 }
 
 const AppContext = createContext<AppContext | undefined>(undefined);
@@ -87,7 +88,7 @@ const AppProvider = ({ children }: ProviderProps) => {
     setState({ ...state, search: { ...state.search, query: value, results } });
   };
 
-  const handleFilter = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleFilter = (event: SelectChangeEvent) => {
     let results: string[] = Object.keys(state.countryList);
 
     const value = event.target.value as Region;
