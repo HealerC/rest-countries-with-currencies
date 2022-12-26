@@ -11,6 +11,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
 
 const Country = () => {
   const navigate = useNavigate();
@@ -125,18 +126,58 @@ const Country = () => {
             )}
           </IconButton>
         </Box>
-        <Box sx={{ ml: 8 }}>
-          Common name: {country.commonName}
-          Native name: {Object.values(country.nativeName)}
-          Population: {country.population}
-          Region: {country.region}
-          Subregion: {country.subregion}
-          Capital: {country.capital}
-          Top level domain: {country.tld}
-          Languages: {Object.values(country.languages)}
-          Flags {JSON.stringify(country.flags)}
-          {country.currencies && getCurrencyComponents(country.currencies)}
-          Border countries: {getBordersButtons(country.borders)}
+        <Box sx={{ ml: 8, display: "flex", flexDirection: "column" }}>
+          <Typography component="h4" variant="h6">
+            {country.commonName}
+          </Typography>
+          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Box>
+              <Typography component="p" variant="body2">
+                <b>Native name:</b>
+                {Object.values(country.nativeName)}
+              </Typography>
+              <Typography component="p" variant="body2">
+                <b>Population:</b>
+                {country.population}
+              </Typography>
+              <Typography component="p" variant="body2">
+                <b>Region:</b>
+                {country.region}
+              </Typography>
+              <Typography component="p" variant="body2">
+                <b>Subregion:</b>
+                {country.subregion}
+              </Typography>
+              <Typography component="p" variant="body2">
+                <b>Capital:</b>
+                {country.capital}
+              </Typography>
+            </Box>
+
+            <Box>
+              <Typography component="p" variant="body2">
+                <b>Top level domain:</b>
+                {country.tld}
+              </Typography>
+              <Typography component="p" variant="body2">
+                <b>Currencies:</b>
+                {Object.keys(country.currencies)
+                  .map((code) => {
+                    return country?.currencies[code].name;
+                  })
+                  .join(",")}
+              </Typography>
+              <Typography component="p" variant="body2">
+                <b>Languages:</b>
+                {Object.values(country.languages).join(", ")}
+              </Typography>
+            </Box>
+          </Box>
+
+          <Box>
+            {country.currencies && getCurrencyComponents(country.currencies)}
+          </Box>
+          <Box>Border countries: {getBordersButtons(country.borders)}</Box>
         </Box>
       </Box>
     </Box>
