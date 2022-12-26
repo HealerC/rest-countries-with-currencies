@@ -6,6 +6,7 @@ import { countriesRatesDataProcessor } from "../utils/apiDataProcessors";
 import { CountryRates } from "../utils/apiDataProcessors";
 
 const local = "http://localhost:5000/rates";
+const localIp = "http://192.168.43.240:5000/rates";
 const remote = `https://openexchangerates.org/api/latest.json?app_id=${process.env.REACT_APP_OPEN_EXCHANGE_APP_ID}`;
 
 export const fetchUrlsObject: APIFetchArgument = {
