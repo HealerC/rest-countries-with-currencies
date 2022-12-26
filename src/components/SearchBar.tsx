@@ -10,7 +10,7 @@ type Props = {
 };
 const SearchBar = ({ value, handleChange }: Props) => {
   return (
-    <FormControl sx={{ m: 1, width: "30vw" }} variant="filled">
+    <FormControl sx={{ width: "30vw" }} variant="filled">
       <FilledInput
         id="search"
         type="text"

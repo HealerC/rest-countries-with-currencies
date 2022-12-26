@@ -18,7 +18,12 @@ const CardCountry = ({
   return (
     <Card component="div" id={id} sx={{ maxWidth: 345 }} onClick={handleClick}>
       <CardActionArea>
-        <CardMedia component="img" height="140" image={url} alt={alt} />
+        <CardMedia
+          component="img"
+          height="200"
+          /*"140"*/ image={url}
+          alt={alt}
+        />
         <CardContent>{cardContent}</CardContent>
       </CardActionArea>
     </Card>

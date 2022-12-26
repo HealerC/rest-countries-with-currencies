@@ -5,6 +5,7 @@ import SelectInput from "../components/SelectInput";
 import CardCountry from "../components/CardCountry";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import Grid from "@mui/material/Unstable_Grid2";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -63,24 +64,42 @@ const Home = () => {
       </>
     );
     return (
-      <CardCountry
-        cardImg={{ url: flagUrl, alt: commonName }}
-        cardContent={cardContent}
-        id={cca3}
-        handleClick={handleCountryClick}
-      />
+      <Grid xs={4} sm={2} md={4} lg={3} key={cca3}>
+        <CardCountry
+          cardImg={{ url: flagUrl, alt: commonName }}
+          cardContent={cardContent}
+          id={cca3}
+          handleClick={handleCountryClick}
+        />
+      </Grid>
     );
   });
   return (
-    <div>
-      <SearchBar value={query} handleChange={handleSearch} />
-      <SelectInput
-        value={filterRegion}
-        onChange={handleFilter}
-        items={Object.keys(regionList)}
-      />
-      {countryElements}
-    </div>
+    <Box sx={{ display: "flex", flexDirection: "column", px: 6 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          ["@media (max-width: 600px)"]: {
+            flexDirection: "column",
+            "& > *": {
+              margin: "10px",
+            },
+          },
+          my: 3,
+        }}
+      >
+        <SearchBar value={query} handleChange={handleSearch} />
+        <SelectInput
+          value={filterRegion}
+          onChange={handleFilter}
+          items={Object.keys(regionList)}
+        />
+      </Box>
+      <Grid container spacing={2} columns={{ xs: 4, md: 12 }}>
+        {countryElements}
+      </Grid>
+    </Box>
   );
 };
 

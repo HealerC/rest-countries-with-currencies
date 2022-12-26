@@ -10,7 +10,7 @@ type Props = {
 };
 const SelectInput = ({ value, onChange: handleChange, items }: Props) => {
   return (
-    <FormControl sx={{ m: 1, minWidth: 120 }}>
+    <FormControl sx={{ minWidth: 200, maxWidth: 300 }}>
       <Select value={value} onChange={handleChange}>
         {items.map((item) => (
           <MenuItem value={item} key={item}>
