@@ -9,6 +9,8 @@ import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import IconButton from "@mui/material/IconButton";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
 
 const Country = () => {
   const navigate = useNavigate();
@@ -72,6 +74,7 @@ const Country = () => {
         const commonName = countryList[cca3].commonName;
         return (
           <ButtonSimple
+            sx={{ mx: 0.5 }}
             variant="contained"
             startIcon={null}
             handleClick={() => navigate(`/countries/${cca3}`)}
@@ -91,28 +94,52 @@ const Country = () => {
   }
 
   return (
-    <div>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start",
+        px: 6,
+      }}
+    >
       <ButtonSimple
+        sx={{ my: 6 }}
         startIcon={<KeyboardBackspaceIcon />}
         handleClick={handleBackButtonClick}
       >
         Back
       </ButtonSimple>
-      <IconButton onClick={() => toggleFav(cca3)} aria-label="favorite">
-        {regionList.Fav.includes(cca3) ? <Favorite /> : <FavoriteBorderIcon />}
-      </IconButton>
-      Common name: {country.commonName}
-      Native name: {Object.values(country.nativeName)}
-      Population: {country.population}
-      Region: {country.region}
-      Subregion: {country.subregion}
-      Capital: {country.capital}
-      Top level domain: {country.tld}
-      Languages: {Object.values(country.languages)}
-      Flags {JSON.stringify(country.flags)}
-      {country.currencies && getCurrencyComponents(country.currencies)}
-      Border countries: {getBordersButtons(country.borders)}
-    </div>
+      <Box sx={{ display: "flex" }}>
+        <Box>
+          <Box
+            component="img"
+            src={country.flags.svg}
+            alt={`${country.commonName} Flag`}
+            sx={{ width: "350px", height: "auto" }}
+          />
+          <IconButton onClick={() => toggleFav(cca3)} aria-label="favorite">
+            {regionList.Fav.includes(cca3) ? (
+              <Favorite />
+            ) : (
+              <FavoriteBorderIcon />
+            )}
+          </IconButton>
+        </Box>
+        <Box sx={{ ml: 8 }}>
+          Common name: {country.commonName}
+          Native name: {Object.values(country.nativeName)}
+          Population: {country.population}
+          Region: {country.region}
+          Subregion: {country.subregion}
+          Capital: {country.capital}
+          Top level domain: {country.tld}
+          Languages: {Object.values(country.languages)}
+          Flags {JSON.stringify(country.flags)}
+          {country.currencies && getCurrencyComponents(country.currencies)}
+          Border countries: {getBordersButtons(country.borders)}
+        </Box>
+      </Box>
+    </Box>
   );
 };
 
