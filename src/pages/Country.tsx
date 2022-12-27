@@ -179,7 +179,7 @@ const Country = () => {
               },
             }}
           >
-            <Box sx={{ backgroundColor: "pink" }}>
+            <Box>
               <CountryData
                 name="Native name"
                 data={Object.keys(country.nativeName).map(
@@ -214,7 +214,6 @@ const Country = () => {
 
             <Box
               sx={{
-                backgroundColor: "yellow",
                 ["@media (max-width: 600px)"]: { mt: 3 },
               }}
             >
