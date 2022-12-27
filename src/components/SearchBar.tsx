@@ -10,7 +10,7 @@ type Props = {
 };
 const SearchBar = ({ value, handleChange }: Props) => {
   return (
-    <FormControl sx={{ width: "30vw" }} variant="filled">
+    <FormControl /*sx={{ width: "30vw" }}*/ variant="filled">
       <FilledInput
         id="search"
         type="text"
@@ -22,6 +22,7 @@ const SearchBar = ({ value, handleChange }: Props) => {
         placeholder="Search for a country..."
         value={value}
         onChange={(event) => handleChange(event.target.value)}
+        // disableUnderline={true}
       />
     </FormControl>
   );

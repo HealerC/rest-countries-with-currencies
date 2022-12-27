@@ -10,8 +10,8 @@ type Props = {
 };
 const SelectInput = ({ value, onChange: handleChange, items }: Props) => {
   return (
-    <FormControl sx={{ minWidth: 200, maxWidth: 300 }}>
-      <Select value={value} onChange={handleChange}>
+    <FormControl variant="filled" sx={{ minWidth: 200, maxWidth: 300 }}>
+      <Select value={value} onChange={handleChange} /*disableUnderline={true}*/>
         {items.map((item) => (
           <MenuItem value={item} key={item}>
             {item}

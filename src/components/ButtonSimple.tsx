@@ -10,7 +10,7 @@ type Props = {
 };
 const ButtonSimple = ({
   sx,
-  variant = "contained",
+  variant = "text",
   startIcon,
   handleClick,
   children,

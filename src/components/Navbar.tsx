@@ -2,10 +2,10 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
-import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import LightModeIcon from "@mui/icons-material/LightMode";
 import { useAppContext } from "../context/appContext";
+import ButtonSimple from "./ButtonSimple";
 
 const Navbar = () => {
   const { lightMode, toggleMode } = useAppContext();
@@ -17,20 +17,47 @@ const Navbar = () => {
           <Typography component="h1" variant="h6">
             Where in the world?
           </Typography>
-          <Button
-            onClick={toggleMode}
+
+          {/* {lightMode ? (
+            <ButtonSimple
+              handleClick={toggleMode}
+              sx={{
+                border: "1px solid white",
+                marginRight: "2rem",
+                textTransform: "capitalize",
+              }}
+              startIcon={<LightModeIcon />}
+            >
+              Light mode
+            </ButtonSimple>
+          ) : (
+            <ButtonSimple
+              handleClick={toggleMode}
+              sx={{
+                border: "1px solid white",
+                color: "black",
+                marginRight: "2rem",
+                textTransform: "capitalize",
+              }}
+              startIcon={<DarkModeIcon />}
+            >
+              Dark mode
+            </ButtonSimple>
+          )} */}
+          <ButtonSimple
+            handleClick={toggleMode}
+            variant="text"
             sx={{
-              border: "1px solid white",
-              color: "white",
+              // border: "1px solid white",
+              // color: "black",
               marginRight: "2rem",
               textTransform: "capitalize",
+              color: "text.primary",
             }}
-            startIcon={
-              lightMode ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />
-            }
+            startIcon={lightMode ? <LightModeIcon /> : <DarkModeIcon />}
           >
-            {lightMode ? "Dark mode" : "Light mode"}
-          </Button>
+            {lightMode ? "Light mode" : "Dark mode"}
+          </ButtonSimple>
         </Toolbar>
       </AppBar>
     </Box>
