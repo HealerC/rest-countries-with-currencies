@@ -41,7 +41,7 @@ const Country = () => {
   };
 
   const checkCountryForCca3 = (countryList: CountryList, cca3: string) => {
-    console.log(countryList, cca3);
+    // console.log(countryList, cca3);
     if (countryList[cca3]) {
       return countryList[cca3];
     } else {
@@ -91,6 +91,7 @@ const Country = () => {
         const commonName = countryList[cca3].commonName;
         return (
           <ButtonSimple
+            key={cca3}
             sx={{ m: 0.5 }}
             variant="contained"
             startIcon={null}
@@ -187,7 +188,7 @@ const Country = () => {
                     const langString = country?.languages[lang];
                     const nativeName = country?.nativeName[lang];
                     return (
-                      <Tooltip title={langString}>
+                      <Tooltip title={langString} key={langString}>
                         <Box
                           component="span"
                           sx={

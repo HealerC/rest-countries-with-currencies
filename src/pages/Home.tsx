@@ -53,6 +53,7 @@ const Home = () => {
           if (key !== "commonName") {
             return (
               <Typography
+                key={key}
                 variant="body1"
                 component="p"
                 sx={{
