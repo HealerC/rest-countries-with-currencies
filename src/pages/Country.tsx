@@ -12,6 +12,21 @@ import Favorite from "@mui/icons-material/Favorite";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
+import { CardActionArea } from "@mui/material";
+import Tooltip from "@mui/material/Tooltip";
+
+type CDProps = {
+  name: string;
+  data: React.ReactNode;
+};
+const CountryData = ({ name, data }: CDProps) => {
+  return (
+    <Typography component="p" variant="body2" sx={{ mb: 0.75 }}>
+      <b style={{ marginRight: "0.5rem" }}>{name}:</b>
+      {data}
+    </Typography>
+  );
+};
 
 const Country = () => {
   const navigate = useNavigate();
@@ -75,7 +90,7 @@ const Country = () => {
         const commonName = countryList[cca3].commonName;
         return (
           <ButtonSimple
-            sx={{ mx: 0.5 }}
+            sx={{ m: 0.5 }}
             variant="contained"
             startIcon={null}
             handleClick={() => navigate(`/countries/${cca3}`)}
@@ -104,21 +119,33 @@ const Country = () => {
       }}
     >
       <ButtonSimple
+        variant="contained"
         sx={{ my: 6 }}
         startIcon={<KeyboardBackspaceIcon />}
         handleClick={handleBackButtonClick}
       >
         Back
       </ButtonSimple>
-      <Box sx={{ display: "flex" }}>
-        <Box>
-          <Box
-            component="img"
-            src={country.flags.svg}
-            alt={`${country.commonName} Flag`}
-            sx={{ width: "350px", height: "auto" }}
-          />
-          <IconButton onClick={() => toggleFav(cca3)} aria-label="favorite">
+      <Box
+        sx={{
+          display: "flex",
+          ["@media (max-width: 600px)"]: { flexDirection: "column" },
+        }}
+      >
+        <Box sx={{ display: "flex", flexDirection: "column" }}>
+          <CardActionArea onClick={() => toggleFav(cca3)}>
+            <Box
+              component="img"
+              src={country.flags.svg}
+              alt={`${country.commonName} Flag`}
+              sx={{ width: "350px", height: "auto" }}
+            />
+          </CardActionArea>
+          <IconButton
+            onClick={() => toggleFav(cca3)}
+            sx={{ alignSelf: "center" }}
+            aria-label="favorite"
+          >
             {regionList.Fav.includes(cca3) ? (
               <Favorite />
             ) : (
@@ -126,58 +153,85 @@ const Country = () => {
             )}
           </IconButton>
         </Box>
-        <Box sx={{ ml: 8, display: "flex", flexDirection: "column" }}>
-          <Typography component="h4" variant="h6">
+        <Box
+          sx={{
+            ml: 8,
+            display: "flex",
+            flexDirection: "column",
+            ["@media (max-width: 600px)"]: { ml: "initial" },
+          }}
+        >
+          <Typography
+            component="h4"
+            variant="h6"
+            sx={{ fontWeight: "800", mb: 2 }}
+          >
             {country.commonName}
           </Typography>
-          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Box>
-              <Typography component="p" variant="body2">
-                <b>Native name:</b>
-                {Object.values(country.nativeName)}
-              </Typography>
-              <Typography component="p" variant="body2">
-                <b>Population:</b>
-                {country.population}
-              </Typography>
-              <Typography component="p" variant="body2">
-                <b>Region:</b>
-                {country.region}
-              </Typography>
-              <Typography component="p" variant="body2">
-                <b>Subregion:</b>
-                {country.subregion}
-              </Typography>
-              <Typography component="p" variant="body2">
-                <b>Capital:</b>
-                {country.capital}
-              </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              ["@media (max-width: 600px)"]: {
+                flexDirection: "column",
+                justifyContent: "initial",
+              },
+            }}
+          >
+            <Box sx={{ backgroundColor: "pink" }}>
+              <CountryData
+                name="Native name"
+                data={Object.keys(country.nativeName).map((lang) => {
+                  const langString = country?.languages[lang];
+                  const nativeName = country?.nativeName[lang];
+                  return (
+                    <Tooltip title={langString}>
+                      <span>{nativeName}</span>
+                    </Tooltip>
+                  );
+                })}
+              />
+              <CountryData name="Population" data={country.population} />
+              <CountryData name="Region" data={country.region} />
+              <CountryData name="Subregion" data={country.subregion} />
+              <CountryData name="Capital" data={country.capital.join(", ")} />
             </Box>
 
-            <Box>
-              <Typography component="p" variant="body2">
-                <b>Top level domain:</b>
-                {country.tld}
-              </Typography>
-              <Typography component="p" variant="body2">
-                <b>Currencies:</b>
-                {Object.keys(country.currencies)
+            <Box
+              sx={{
+                backgroundColor: "yellow",
+                ["@media (max-width: 600px)"]: { mt: 3 },
+              }}
+            >
+              <CountryData
+                name="Top level domain"
+                data={country.tld.join(", ")}
+              />
+              <CountryData
+                name="Currencies"
+                data={Object.keys(country.currencies)
                   .map((code) => {
                     return country?.currencies[code].name;
                   })
                   .join(",")}
-              </Typography>
-              <Typography component="p" variant="body2">
-                <b>Languages:</b>
-                {Object.values(country.languages).join(", ")}
-              </Typography>
+              />
+              <CountryData
+                name="Languages"
+                data={Object.values(country.languages).join(", ")}
+              />
             </Box>
           </Box>
 
           <Box>
             {country.currencies && getCurrencyComponents(country.currencies)}
           </Box>
-          <Box>Border countries: {getBordersButtons(country.borders)}</Box>
+          <CountryData
+            name="Border countries"
+            data={getBordersButtons(country.borders)}
+          />
+          {/* <Box component="p">
+            Border countries: {getBordersButtons(country.borders)}
+          </Box> */}
         </Box>
       </Box>
     </Box>

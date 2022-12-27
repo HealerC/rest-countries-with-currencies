@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import CurrencyTextField from "./CurrencyTextField";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 
 type ConversionProps = {
   code: string;
@@ -39,26 +41,35 @@ const Conversion = ({ name, code, symbol, rate }: ConversionProps) => {
   };
 
   return (
-    <div>
-      {name} ({code})
+    <Box sx={{ mt: 2 }}>
+      <Typography variant="body2" component="p">
+        <b>
+          {name} ({code})
+        </b>
+      </Typography>
       {rate && (
-        <div>
+        <Box
+          sx={{
+            display: "flex",
+            ["@media (max-width: 600px)"]: { flexDirection: "column" },
+          }}
+        >
           <CurrencyTextField
             name="dollarValue"
             value={state.dollarValue}
             handleChange={handleChange}
             symbol={DOLLAR_SYMBOL}
           ></CurrencyTextField>
-          equals
+
           <CurrencyTextField
             name="currencyValue"
             value={state.currencyValue}
             handleChange={handleChange}
             symbol={symbol}
           ></CurrencyTextField>
-        </div>
+        </Box>
       )}
-    </div>
+    </Box>
   );
 };
 
