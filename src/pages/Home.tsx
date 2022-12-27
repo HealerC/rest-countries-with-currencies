@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Region } from "../utils/interfacesTypes";
+import numeral from "numeral";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -32,7 +33,12 @@ const Home = () => {
       capital,
       flags: { svg: flagUrl },
     } = countryList[cca3];
-    const content = { commonName, population, region, capital };
+    const content = {
+      commonName,
+      population: numeral(population).format("0,0"),
+      region,
+      capital,
+    };
     const cardContent = (
       <>
         <Typography
