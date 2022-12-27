@@ -6,6 +6,7 @@ import CardCountry from "../components/CardCountry";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Unstable_Grid2";
+import { Region } from "../utils/interfacesTypes";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -31,36 +32,33 @@ const Home = () => {
       capital,
       flags: { svg: flagUrl },
     } = countryList[cca3];
+    const content = { commonName, population, region, capital };
     const cardContent = (
       <>
-        <Typography gutterBottom variant="h5" component="h2">
-          {commonName}
+        <Typography
+          gutterBottom
+          variant="h6"
+          component="h2"
+          sx={{ lineHeight: "1.5rem" }}
+        >
+          {content.commonName}
         </Typography>
-
-        <Box>
-          <Typography variant="h6" component="h3">
-            Population
-          </Typography>
-          <Typography variant="body2" component="p">
-            {population}
-          </Typography>
-        </Box>
-        <Box>
-          <Typography variant="h6" component="h3">
-            Region
-          </Typography>
-          <Typography variant="body2" component="p">
-            {region}
-          </Typography>
-        </Box>
-        <Box>
-          <Typography variant="h6" component="h3">
-            Capital
-          </Typography>
-          <Typography variant="body2" component="p">
-            {capital}
-          </Typography>
-        </Box>
+        {Object.keys(content).map((key) => {
+          if (key !== "commonName") {
+            return (
+              <Typography
+                variant="body1"
+                component="p"
+                sx={{
+                  textTransform: "capitalize",
+                }}
+              >
+                <b style={{ marginRight: "0.5rem" }}>{key}:</b>
+                {content[key as keyof typeof content]}
+              </Typography>
+            );
+          }
+        })}
       </>
     );
     return (
@@ -96,7 +94,7 @@ const Home = () => {
           items={Object.keys(regionList)}
         />
       </Box>
-      <Grid container spacing={2} columns={{ xs: 4, md: 12 }}>
+      <Grid container spacing={6} columns={{ xs: 4, md: 12 }}>
         {countryElements}
       </Grid>
     </Box>
