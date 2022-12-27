@@ -14,6 +14,7 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
+import numeral from "numeral";
 
 type CDProps = {
   name: string;
@@ -181,17 +182,31 @@ const Country = () => {
             <Box sx={{ backgroundColor: "pink" }}>
               <CountryData
                 name="Native name"
-                data={Object.keys(country.nativeName).map((lang) => {
-                  const langString = country?.languages[lang];
-                  const nativeName = country?.nativeName[lang];
-                  return (
-                    <Tooltip title={langString}>
-                      <span>{nativeName}</span>
-                    </Tooltip>
-                  );
-                })}
+                data={Object.keys(country.nativeName).map(
+                  (lang, index, array) => {
+                    const langString = country?.languages[lang];
+                    const nativeName = country?.nativeName[lang];
+                    return (
+                      <Tooltip title={langString}>
+                        <Box
+                          component="span"
+                          sx={
+                            index !== array.length - 1
+                              ? { ["::after"]: { content: `", "` } }
+                              : undefined
+                          }
+                        >
+                          {nativeName}
+                        </Box>
+                      </Tooltip>
+                    );
+                  }
+                )}
               />
-              <CountryData name="Population" data={country.population} />
+              <CountryData
+                name="Population"
+                data={numeral(country.population).format("0, 0")}
+              />
               <CountryData name="Region" data={country.region} />
               <CountryData name="Subregion" data={country.subregion} />
               <CountryData name="Capital" data={country.capital.join(", ")} />
