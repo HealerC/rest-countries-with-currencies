@@ -3,6 +3,9 @@ import { AppState } from "../utils/interfacesTypes";
 import { useFetcher } from "./useFetcher";
 import { Region } from "../utils/interfacesTypes";
 import { SelectChangeEvent } from "@mui/material/Select";
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import appTheme from "../appTheme";
 
 const defaultState: AppState = {
   countryList: {},
@@ -110,7 +113,12 @@ const AppProvider = ({ children }: ProviderProps) => {
     <AppContext.Provider
       value={{ ...state, toggleMode, toggleFav, handleSearch, handleFilter }}
     >
-      {children}
+      <ThemeProvider
+        theme={state.lightMode ? appTheme("light") : appTheme("dark")}
+      >
+        <CssBaseline />
+        {children}
+      </ThemeProvider>
     </AppContext.Provider>
   );
 };
