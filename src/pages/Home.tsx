@@ -80,14 +80,18 @@ const Home = () => {
           justifyContent: "space-between",
           ["@media (max-width: 600px)"]: {
             flexDirection: "column",
-            "& > *": {
-              margin: "10px",
-            },
           },
           my: 3,
         }}
       >
-        <SearchBar value={query} handleChange={handleSearch} />
+        <SearchBar
+          sx={{
+            width: "40%",
+            ["@media (max-width: 600px)"]: { mb: 4, width: "100%" },
+          }}
+          value={query}
+          handleChange={handleSearch}
+        />
         <SelectInput
           value={filterRegion}
           onChange={handleFilter}

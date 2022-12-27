@@ -3,14 +3,16 @@ import FilledInput from "@mui/material/FilledInput";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
+import { SxProps } from "@mui/material";
 
 type Props = {
+  sx?: SxProps;
   value: string;
   handleChange: Function;
 };
-const SearchBar = ({ value, handleChange }: Props) => {
+const SearchBar = ({ value, handleChange, sx }: Props) => {
   return (
-    <FormControl /*sx={{ width: "30vw" }}*/ variant="filled">
+    <FormControl /*sx={{ width: "30vw" }}*/ sx={sx} variant="filled">
       <FilledInput
         id="search"
         type="text"
@@ -22,7 +24,7 @@ const SearchBar = ({ value, handleChange }: Props) => {
         placeholder="Search for a country..."
         value={value}
         onChange={(event) => handleChange(event.target.value)}
-        // disableUnderline={true}
+        disableUnderline={true}
       />
     </FormControl>
   );
