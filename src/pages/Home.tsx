@@ -1,8 +1,6 @@
 import { useAppContext } from "../context/appContext";
 import { useNavigate } from "react-router-dom";
-import SearchBar from "../components/SearchBar";
-import SelectInput from "../components/SelectInput";
-import CardCountry from "../components/CardCountry";
+import { SearchBar, SelectInput, CardCountry } from "../components";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Unstable_Grid2";
