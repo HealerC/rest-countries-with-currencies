@@ -1,26 +1,30 @@
-import { useParams, useNavigate } from "react-router-dom";
-import { useAppContext } from "../context/appContext";
-import { CountryList, AppCurrencyData } from "../utils/interfacesTypes";
-import { Navigate } from "react-router-dom";
-import Conversion from "../components/Conversion";
+import { useParams, useNavigate, Navigate } from "react-router-dom";
 import history from "history/browser";
-import ButtonSimple from "../components/ButtonSimple";
-import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import IconButton from "@mui/material/IconButton";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import Favorite from "@mui/icons-material/Favorite";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import Typography from "@mui/material/Typography";
-import { CardActionArea } from "@mui/material";
-import Tooltip from "@mui/material/Tooltip";
 import numeral from "numeral";
 
+import { useAppContext } from "../context/appContext";
+import {
+  CountryList,
+  AppCurrencyData,
+  RestCountriesData,
+} from "../utils/interfacesTypes";
+import { Conversion, ButtonSimple } from "../components";
+
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Tooltip from "@mui/material/Tooltip";
+import IconButton from "@mui/material/IconButton";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import Favorite from "@mui/icons-material/Favorite";
+import { CardActionArea } from "@mui/material";
+
+// Just a title with its value used to render each data, and value
 type CDProps = {
   name: string;
   data: React.ReactNode;
 };
-const CountryData = ({ name, data }: CDProps) => {
+const CountryData = ({ name, data = "" }: CDProps) => {
   return (
     <Typography component="p" variant="body2" sx={{ mb: 0.75 }}>
       <b style={{ marginRight: "0.5rem" }}>{name}:</b>
@@ -36,12 +40,12 @@ const Country = () => {
   const { countryList, toggleFav, regionList } = useAppContext();
 
   const handleBackButtonClick = () => {
-    // navigate("/");
     history.back();
   };
 
+  // Meant to handle route where user enters a common name
+  // using the URL string...
   const checkCountryForCca3 = (countryList: CountryList, cca3: string) => {
-    // console.log(countryList, cca3);
     if (countryList[cca3]) {
       return countryList[cca3];
     } else {
@@ -58,6 +62,8 @@ const Country = () => {
     }
   };
 
+  // The conversion component is made up of two textboxes
+  // that converts between dollar and the specified currency
   type CurrenciesObject = {
     [currency: string]: AppCurrencyData;
   };
@@ -83,30 +89,61 @@ const Country = () => {
     );
     return components;
   };
-  const getBordersButtons = (
-    borderCountries: string[] | undefined
-  ): React.ReactNode => {
-    if (borderCountries) {
-      const buttonList = borderCountries.map((cca3) => {
-        const commonName = countryList[cca3].commonName;
+
+  // The border countries are buttons that on click, take you to
+  // the specified country
+  const getBordersButtons = (borderCountries: string[]): React.ReactNode => {
+    const buttonList = borderCountries.map((cca3) => {
+      const commonName = countryList[cca3].commonName;
+      return (
+        <ButtonSimple
+          key={cca3}
+          sx={{ m: 0.5 }}
+          variant="contained"
+          startIcon={null}
+          handleClick={() => navigate(`/countries/${cca3}`)}
+        >
+          {commonName}
+        </ButtonSimple>
+      );
+    });
+    return buttonList;
+  };
+
+  const getNativeNames = (country: RestCountriesData): React.ReactNode => {
+    let nativeNameList = Object.keys(country.nativeName).map(
+      (lang, index, array) => {
+        const langString = country?.languages[lang];
+        const nativeName = country?.nativeName[lang];
         return (
-          <ButtonSimple
-            key={cca3}
-            sx={{ m: 0.5 }}
-            variant="contained"
-            startIcon={null}
-            handleClick={() => navigate(`/countries/${cca3}`)}
-          >
-            {commonName}
-          </ButtonSimple>
+          <Tooltip title={langString} key={langString}>
+            <Box
+              component="span"
+              sx={
+                index !== array.length - 1
+                  ? { ["::after"]: { content: `", "` } }
+                  : undefined
+              }
+            >
+              {nativeName}
+            </Box>
+          </Tooltip>
         );
-      });
-      return buttonList;
-    }
-    return [];
+      }
+    );
+    return nativeNameList;
+  };
+
+  const getCurrencyList = (country: RestCountriesData): React.ReactNode => {
+    return Object.keys(country.currencies)
+      .map((code) => {
+        return country?.currencies[code].name;
+      })
+      .join(",");
   };
 
   let country = checkCountryForCca3(countryList, cca3);
+  // 404 page not found, go to home route
   if (!country) {
     return <Navigate to="/"></Navigate>;
   }
@@ -114,7 +151,7 @@ const Country = () => {
   return (
     <Box
       sx={{
-        display: "flex",
+        display: "flex", // Stack button and country info vertically
         flexDirection: "column",
         alignItems: "flex-start",
         px: 6,
@@ -130,10 +167,11 @@ const Country = () => {
       </ButtonSimple>
       <Box
         sx={{
-          display: "flex",
+          display: "flex", // Stack contents vertically on smaller devices
           ["@media (max-width: 600px)"]: { flexDirection: "column" },
         }}
       >
+        {/* The country flag and favorite button */}
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           <CardActionArea onClick={() => toggleFav(cca3)}>
             <Box
@@ -155,6 +193,7 @@ const Country = () => {
             )}
           </IconButton>
         </Box>
+        {/* Main country content right of the flag */}
         <Box
           sx={{
             ml: 8,
@@ -183,34 +222,30 @@ const Country = () => {
             <Box>
               <CountryData
                 name="Native name"
-                data={Object.keys(country.nativeName).map(
-                  (lang, index, array) => {
-                    const langString = country?.languages[lang];
-                    const nativeName = country?.nativeName[lang];
-                    return (
-                      <Tooltip title={langString} key={langString}>
-                        <Box
-                          component="span"
-                          sx={
-                            index !== array.length - 1
-                              ? { ["::after"]: { content: `", "` } }
-                              : undefined
-                          }
-                        >
-                          {nativeName}
-                        </Box>
-                      </Tooltip>
-                    );
-                  }
-                )}
+                data={country.nativeName ? getNativeNames(country) : ""}
               />
+
               <CountryData
                 name="Population"
-                data={numeral(country.population).format("0, 0")}
+                data={
+                  country.population
+                    ? numeral(country.population).format("0, 0")
+                    : ""
+                }
               />
-              <CountryData name="Region" data={country.region} />
-              <CountryData name="Subregion" data={country.subregion} />
-              <CountryData name="Capital" data={country.capital.join(", ")} />
+              <CountryData
+                name="Region"
+                data={country.region ? country.region : ""}
+              />
+              <CountryData
+                name="Subregion"
+                data={country.subregion ? country.subregion : ""}
+              />
+
+              <CountryData
+                name="Capital"
+                data={country.capital ? country.capital.join(", ") : ""}
+              />
             </Box>
 
             <Box
@@ -220,19 +255,19 @@ const Country = () => {
             >
               <CountryData
                 name="Top level domain"
-                data={country.tld.join(", ")}
+                data={country.tld ? country.tld.join(", ") : ""}
               />
               <CountryData
                 name="Currencies"
-                data={Object.keys(country.currencies)
-                  .map((code) => {
-                    return country?.currencies[code].name;
-                  })
-                  .join(",")}
+                data={country.currencies ? getCurrencyList(country) : ""}
               />
               <CountryData
                 name="Languages"
-                data={Object.values(country.languages).join(", ")}
+                data={
+                  country.languages
+                    ? Object.values(country.languages).join(", ")
+                    : ""
+                }
               />
             </Box>
           </Box>
@@ -240,13 +275,11 @@ const Country = () => {
           <Box>
             {country.currencies && getCurrencyComponents(country.currencies)}
           </Box>
+
           <CountryData
             name="Border countries"
-            data={getBordersButtons(country.borders)}
+            data={country.borders ? getBordersButtons(country.borders) : ""}
           />
-          {/* <Box component="p">
-            Border countries: {getBordersButtons(country.borders)}
-          </Box> */}
         </Box>
       </Box>
     </Box>
