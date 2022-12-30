@@ -17,12 +17,14 @@ const Home = () => {
     handleFilter,
   } = useAppContext();
 
+  // Go to the detailed page for a country clicked
   const handleCountryClick = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ): void => {
     navigate(`/countries/${event.currentTarget.id}`);
   };
 
+  // A card for every country containing all relevant details
   const countryElements = results.map((cca3) => {
     const {
       commonName,
@@ -31,12 +33,14 @@ const Home = () => {
       capital,
       flags: { svg: flagUrl },
     } = countryList[cca3];
+
     const content = {
       commonName,
       population: numeral(population).format("0,0"),
       region,
       capital,
     };
+    // Content of each card
     const cardContent = (
       <>
         <Typography
@@ -49,6 +53,7 @@ const Home = () => {
         </Typography>
         {Object.keys(content).map((key) => {
           if (key !== "commonName") {
+            // Common name is rendered above
             return (
               <Typography
                 key={key}
@@ -66,6 +71,8 @@ const Home = () => {
         })}
       </>
     );
+
+    // Each country card is a responsive grid item
     return (
       <Grid xs={4} sm={2} md={4} lg={3} key={cca3}>
         <CardCountry
@@ -77,6 +84,7 @@ const Home = () => {
       </Grid>
     );
   });
+
   return (
     <Box sx={{ display: "flex", flexDirection: "column", px: 6 }}>
       <Box
@@ -103,6 +111,8 @@ const Home = () => {
           items={Object.keys(regionList)}
         />
       </Box>
+
+      {/* The container containing other grid items */}
       <Grid container spacing={6} columns={{ xs: 4, md: 12 }}>
         {countryElements}
       </Grid>
