@@ -41,15 +41,6 @@ const getDesignModeTokens = (mode: PaletteMode) => ({
 
 const appTheme = (mode: PaletteMode) =>
   createTheme({
-    //   components: {
-    //     MuiAppBar: {
-    //       styleOverrides: {
-    //         root: {
-    //           backgroundColor: "white"
-    //         }
-    //       }
-    //     }
-    //   }
     components: {
       MuiCssBaseline: {
         styleOverrides: {
