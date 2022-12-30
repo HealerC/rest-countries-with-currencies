@@ -60,6 +60,9 @@ const Navbar = () => {
               marginRight: "2rem",
               textTransform: "capitalize",
               color: "text.primary",
+              ["@media (max-width: 600px)"]: {
+                marginRight: "initial",
+              },
             }}
             startIcon={lightMode ? <LightModeIcon /> : <DarkModeIcon />}
           >
