@@ -1,6 +1,18 @@
 import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 
+/*
+ * This hook definitely needs more work...
+ * For now its just a bunch of generic typing but generally
+ * It takes multiple arguments, an object which keys point to
+ * a tuple containing a url and a function that transforms the
+ * result of the data returned by the API
+ * Then it returns an object containing the same keys as above
+ * but pointing now to the 'transformed' data.
+ */
+
+// the key is the name of the data to be fetched, the url is the
+// api url while the data processor processes the data
 export interface APIFetchArgument {
   [key: string]: [
     url: string,
@@ -8,9 +20,13 @@ export interface APIFetchArgument {
   ];
 }
 
+// key as in argument but now its value is its processed data
 type ProcessedData = {
   [key: string]: Object;
 };
+
+// Loading state of the fetching along with the processed data
+// processedData contains all the data in key value object pairs
 interface APIFetchResponse {
   loading: boolean;
   processedData: ProcessedData;
